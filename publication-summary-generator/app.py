@@ -6,7 +6,6 @@ from docx import Document
 import google.generativeai as genai
 from scholarly import scholarly
 import concurrent.futures
-import matplotlib.pyplot as plt
 import seaborn as sns
 from flask_cors import CORS
 
@@ -21,6 +20,22 @@ model = genai.GenerativeModel('gemini-1.5-flash-latest')
 # Global variables
 processed_df = None  # Placeholder for DataFrame
 results_html = None  # Placeholder for HTML table
+
+# Utility function to read CSV
+
+def read_csv(file):
+
+    try:
+
+        df = pd.read_csv(file)
+
+        return df
+
+    except Exception as e:
+
+        print(f"Error reading CSV file: {e}")
+
+        return pd.DataFrame()
 
 # Function to analyze author data
 def d_analysis(author_name):
@@ -181,7 +196,7 @@ def upload():
         except Exception as e:
             flash(f'An error occurred while processing the file: {str(e)}')
             return redirect(url_for('index'))
-
+        
 @app.route('/results')
 def results():
     if processed_df is None:
