@@ -133,16 +133,16 @@ def generate_author_summary(df, author):
         summary += f"{phrase} '{title}', which appeared in {citation}. "
     summary += f"These publications underscore {author}'s commitment to advancing research in their domain, particularly in areas such as {', '.join([title.split(':')[0].lower() for title in titles[:2]])}, and other related fields."
 
-    SYSTEM_PROMPT = "Your name is Summarize AI. Your task is to Summarize the context."
+    SYSTEM_PROMPT = "Your name is Summarize AI. Your task is to Summarize the context and assess the quality."
 
     chat = model.start_chat(history=[{"role": "model", "parts": [SYSTEM_PROMPT]}])
     response = chat.send_message(f"""
-User Prompt: Summarize the following text.
+User Prompt: Summarize assess the quality of following text.
 \n\n
 Here is the Text: {summary}
 \n\n
 Instruction:
-Generate a concise summary of the provided text.
+Generate a concise summary of the provided text and tell it's impact on the academic world.
 """, stream=True)
 
     final_summary = ""
